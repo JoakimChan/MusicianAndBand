@@ -1,11 +1,26 @@
-import PromptSync from `prompt-sync`;
+import PromptSync from 'prompt-sync';
 const prompt = PromptSync({ sigint: true });
+import Musican from './musiker.js';
+import Band from './band.js';
 
-console.log(`1.skapa en musiker 2.ta bort  3.lägg till 4.kolla efter q.avsluta programmet`);
-let mainChoice = prompt('vad vill du göra? :');
+console.log("1.skapa 2.ta bort 3.lägg till 4.kolla efter q.avsluta programmet");
+let mainChoice = prompt('vad vill du göra?: ').trim().toLocaleLowerCase();
 switch (mainChoice) {
   case '1':
-    console.log(`1.skapa ett band med musikern i q.tillbaka`)
+    console.log("1.musiker 2.band q.tillbaka")
+    let createChoice = prompt('vad vill du skapa?: ').trim().toLocaleLowerCase();
+    switch (createChoice) {
+      case '1':
+        Musican.createMusician();
+        break;
+      case '2':
+        Band.createBand();
+        break;
+      case 'q':
+        break;
+      default:
+        console.log('valet finns inte!');
+    }
     break;
   case '2':
     console.log('1.ett band 2.en musiker 3. en medlem i ett band 4. ett band från en musiker q.tillbaka')
@@ -17,7 +32,5 @@ switch (mainChoice) {
     console.log('1.ett band 2.en musiker q.tillbaka')
     break;
   default:
-    console.log('valet finns inte!')
-    break;
+    console.log('valet finns inte!');
 }
-
