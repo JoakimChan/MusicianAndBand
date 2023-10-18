@@ -1,49 +1,46 @@
 export default class NewMusiker {
-  #_firstName = "";
-  #_lastName = "";
-  _birthday = "";
-  constructor(firstName, lastName, birthday) {
-    this._firstName = firstName;
-    this._lastName = lastName;
-    this._birthday = birthday;
+  name = "";
+  birthYear = "";
+
+  constructor(name, birthYear) {
+    this.name = name;
+    this.birthYear = birthYear;
   };
 
-  get firstName() {
-    return this._firstName.toUpperCase();
+  get name() {
+    return this.name;
   }
 
-  get lastName() {
-    return this._lastName.toUpperCase();
-  }
-
-  get birthday() {
-    return this._birthday;
+  get birthYear() {
+    return this.birthYear;
   };
 
 
-  set firstName(newName) {
+  set name(newName) {
     if (newName.length >= 1) {
-      this._firstName = newName;
+      this.name = newName;
     } else {
       console.log("Ett nytt förnamn måste innehålla minst 1 symboler!");
     }
   }
 
-  set lastName(newName) {
-    if (newName.length >= 1) {
-      this._lastName = newName;
-    } else {
-      console.log("Ett nytt efternamn måste innehålla minst 1 symboler!");
-    }
-  }
-
-  set birthday(newBirthday) {
-    if (newBirthday.length != 8) {
+  set birthYear(newBirthYear) {
+    if (newBirthYear.length != 4) {
       console.log('förkort födelsedatum födelsedatum!');
-    } else if (isNaN(newBirthday)) {
+    } else if (isNaN(newBirthYear)) {
       console.log('födesedatum kan bara innehålla siffror')
     } else {
-      this._birthday = newBirthday;
+      this.birthYear = newBirthYear;
     }
   };
+
+  dataInfo() {
+    return {
+      name: this.name,
+      birthYear: this.birthYear,
+      currentBand: [],
+      previusBand: [],
+      instrument: []
+    };
+  }
 }

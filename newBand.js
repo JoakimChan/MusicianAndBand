@@ -1,18 +1,45 @@
 export default class NewBand {
-  _name = "";
-  constructor(name) {
-    this._name = name;
+  bandName = "";
+  bandYear = "";
+  constructor(bandName, bandYear, member) {
+    this.bandName = bandName;
+    this.bandYear = bandYear;
+    this.bandMember = member;
   };
 
   get bandName() {
-    return this._name.toUpperCase();
+    return this.bandName;
   }
 
-  set name(newName) {
+  get bandYear() {
+    return this.bandYear
+  }
+
+  set bandName(newName) {
     if (newName.length >= 1) {
-      this._firstName = newName;
+      this.bandName = newName;
     } else {
       console.log("Ett nytt namn måste innehålla minst 1 symboler!");
     }
+  }
+
+  set bandYear(newYear) {
+    if (newYear.length != 4) {
+      console.log('förkort födelsedatum födelsedatum!');
+    } else if (isNaN(newYear)) {
+      console.log('födesedatum kan bara innehålla siffror')
+    } else {
+      this.bandYear = newYear;
+    }
+  }
+
+  dataInfo() {
+    return {
+      bandName: this.name,
+      createdYear: this.birthYear,
+      currentBandMember: [this.bandMember],
+      previusBandMember: [],
+      dissolvedYear: null
+    };
   }
 }
