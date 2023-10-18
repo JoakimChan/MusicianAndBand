@@ -2,8 +2,6 @@ import fs from 'fs';
 import PromptSync from 'prompt-sync';
 const prompt = PromptSync({ sigint: true });
 import NewBand from './newBand.js';
-import Musician from './musiker.js';
-const music = new Musician();
 
 export default class Band {
   bandList = []
@@ -25,18 +23,12 @@ export default class Band {
     }
   }
 
-  static createBand() {
-    if (music.artistList === 0) {
-      console.log("kan tyvärr inte skapa band, det finns inga musiker");
-    } else {
-      let bandName = prompt("bandet heter: ");
-      let yearCreated = prompt("årtal bandet bildades: ")
-      music.displayAllArtist();
-      console.log("lägg till en musiker som första medlem!")
-      let val = prompt("val: ")
-      const band = new NewBand(bandName, yearCreated, music.artistList[val - 1].name);
-      this.bandList.push(band.dataInfo());
-    }
+  createBand(artistNamn) {
+    let bandName = prompt("bandet heter: ");
+    let yearCreated = prompt("årtal bandet bildades: ")
+    const band = new NewBand(bandName, yearCreated, artistNamn);
+    this.bandList.push(band.dataInfo());
+    this.writeToJson()
   }
 
   static displayBand() {
@@ -66,4 +58,10 @@ export default class Band {
     console.log("-------------------------------------------------------------------------------");
   }
 
+  writeToJson() {
+    fs.writeFileSync('./band.json', JSON.stringify(this.bandList, null, 2), (err) => {
+      if (err) throw err;
+      console.log('artist data writen to file')
+    })
+  }
 }

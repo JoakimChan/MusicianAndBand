@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "bandName": "asd",
+    "createdYear": "1234",
+    "currentBandMember": [
+      "qwe"
+    ],
+    "previusBandMember": [],
+    "dissolvedYear": null
+  }
+]
