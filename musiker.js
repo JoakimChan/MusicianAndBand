@@ -23,7 +23,7 @@ export default class Musician {
     }
   }
 
-  static createNewArtist() {
+  createNewArtist() {
     let name = prompt("namn på musikern: ");
     let birthYear = prompt("födelsdags år (YYYY): ");
     const music = new NewMusiker(name, birthYear);

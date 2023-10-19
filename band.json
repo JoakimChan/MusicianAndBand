@@ -7,5 +7,23 @@
     ],
     "previusBandMember": [],
     "dissolvedYear": null
+  },
+  {
+    "bandName": "def",
+    "createdYear": "1788",
+    "currentBandMember": [
+      "qwe"
+    ],
+    "previusBandMember": [],
+    "dissolvedYear": null
+  },
+  {
+    "bandName": "ase5",
+    "createdYear": "4567",
+    "currentBandMember": [
+      "qwe"
+    ],
+    "previusBandMember": [],
+    "dissolvedYear": null
   }
 ]

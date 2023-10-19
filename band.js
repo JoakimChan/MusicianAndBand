@@ -31,8 +31,8 @@ export default class Band {
     this.writeToJson()
   }
 
-  static displayBand() {
-    if (this.bandList.length === 0) {
+  displayBand() {
+    if (this.getLenght() === 0) {
       console.log('listan är tom')
     } else {
       this.displayAllband();
@@ -40,7 +40,7 @@ export default class Band {
       while (agien) {
         console.log('skriv ett nummret på bandet du vill se mer in på')
         let val = prompt('val: ');
-        if (val > this.bandList.length || isNaN(val) || val <= 0) {
+        if (val > this.getLenght() || isNaN(val) || val <= 0) {
           console.log('valet är ogtiltig');
         } else {
           console.log(this.bandList[val - 1])
@@ -52,8 +52,8 @@ export default class Band {
 
   displayAllband() {
     console.log("-------------------------------------------------------------------------------");
-    for (let i = 0; i < this.bandList.length; i++) {
-      console.log(`${i + 1}. ${this.bandList[i].name}`);
+    for (let i = 0; i < this.getLenght(); i++) {
+      console.log(`${i + 1}. ${this.bandList[i].bandName}`);
     }
     console.log("-------------------------------------------------------------------------------");
   }
@@ -63,5 +63,9 @@ export default class Band {
       if (err) throw err;
       console.log('artist data writen to file')
     })
+  }
+
+  getLenght() {
+    return this.bandList.length;
   }
 }

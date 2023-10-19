@@ -3,6 +3,7 @@ const prompt = PromptSync({ sigint: true });
 import Musican from './musiker.js';
 const music = new Musican();
 import Band from './band.js';
+const band = new Band();
 import Mid from './mid.js';
 let agien = true;
 
@@ -41,11 +42,11 @@ switch (mainChoice) {
 */
 
 while (agien) {
-  console.log("1.skapa en musiker 2.visa en spesicik musiker 3.ta bort en artist 4. skapa band q.avsluta");
+  console.log("1.skapa en musiker 2.visa en spesifik musiker 3.ta bort en artist 4. skapa band 5.visa en spesifik band q.avsluta");
   let val = prompt('val: ');
   switch (val) {
     case '1':
-      Musican.createNewArtist();
+      music.createNewArtist();
       break;
     case '2':
       music.displayArtist();
@@ -56,6 +57,9 @@ while (agien) {
     case '4':
       Mid.createBand();
       break;;
+    case '5':
+      band.displayBand();
+      break;
     case 'q':
       agien = false;
       break;
