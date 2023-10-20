@@ -1,5 +1,3 @@
-import PromptSync from 'prompt-sync';
-const prompt = PromptSync({ sigint: true });
 import Musican from './musiker.js';
 import Band from './band.js';
 
@@ -9,15 +7,26 @@ export default class Mid {
     this.b = new Band();
   }
 
-  static createBand() {
+  static removeArtist(val) {
     const midInstance = new Mid();
-    if (midInstance.m.getLenght() === 0) {
-      console.log("kan tyvärr inte skapa band, det finns inga musiker");
-    } else {
-      midInstance.m.displayAllArtist();
-      console.log("lägg till en musiker som första medlem!")
-      let val = prompt("val: ")
-      midInstance.b.createBand(midInstance.m.artistList[val - 1].name);
+    for (let i = 0; i < midInstance.m.artistList[val - 1].currentBand.length; i++) {
+      midInstance.m.artistList[val - 1].currentBand[i].bandID
     }
+  }
+
+  static createBand(val, instrument, bandName, yearCreated) {
+    const midInstance = new Mid();
+    midInstance.b.createBand(bandName, yearCreated, midInstance.m.artistList[val - 1].ID, midInstance.m.artistList[val - 1].name, instrument);
+    midInstance.m.addToABand((val - 1), instrument, midInstance.b.bandList[val - 1].bandID, bandName, yearCreated);
+    midInstance.b.writeToJson();
+    midInstance.m.writeToJson();
+  }
+
+  static addArtistToBand(val1, instrument, val2) {
+    const midInstance = new Mid();
+    midInstance.m.addToABand((val1 - 1), instrument, midInstance.b.bandList[val2 - 1].bandID, midInstance.b.bandList[val2 - 1].name, new Date().getFullYear());
+    midInstance.b.addToABand((val2 - 1), midInstance.m.artistList[val1 - 1].ID, midInstance.m.artistList[val1 - 1].name, instrument, new Date().getFullYear());
+    midInstance.m.writeToJson();
+    midInstance.b.writeToJson();
   }
 }

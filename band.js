@@ -1,6 +1,4 @@
 import fs from 'fs';
-import PromptSync from 'prompt-sync';
-const prompt = PromptSync({ sigint: true });
 import NewBand from './newBand.js';
 
 export default class Band {
@@ -23,31 +21,8 @@ export default class Band {
     }
   }
 
-  createBand(artistNamn) {
-    let bandName = prompt("bandet heter: ");
-    let yearCreated = prompt("årtal bandet bildades: ")
-    const band = new NewBand(bandName, yearCreated, artistNamn);
-    this.bandList.push(band.dataInfo());
-    this.writeToJson()
-  }
-
-  displayBand() {
-    if (this.getLenght() === 0) {
-      console.log('listan är tom')
-    } else {
-      this.displayAllband();
-      let agien = true;
-      while (agien) {
-        console.log('skriv ett nummret på bandet du vill se mer in på')
-        let val = prompt('val: ');
-        if (val > this.getLenght() || isNaN(val) || val <= 0) {
-          console.log('valet är ogtiltig');
-        } else {
-          console.log(this.bandList[val - 1])
-          agien = false;
-        }
-      }
-    }
+  displayBand(val) {
+    console.log(this.bandList[val - 1])
   }
 
   displayAllband() {
@@ -56,6 +31,11 @@ export default class Band {
       console.log(`${i + 1}. ${this.bandList[i].bandName}`);
     }
     console.log("-------------------------------------------------------------------------------");
+  }
+
+  createBand(bandName, yearCreated, id, artistNamn, instrument) {
+    const band = new NewBand(bandName, yearCreated, id, artistNamn, instrument);
+    this.bandList.push(band.dataInfo());
   }
 
   writeToJson() {
@@ -68,4 +48,9 @@ export default class Band {
   getLenght() {
     return this.bandList.length;
   }
+
+  addToABand(index, id, name, instrument, yearJoined) {
+    this.bandList[index].currentBandMember.push({ memberID: id, name: name, instrument: instrument, yearJoined: yearJoined })
+  }
+
 }

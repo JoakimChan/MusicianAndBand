@@ -1,27 +1,21 @@
 [
   {
-    "bandName": "asd",
-    "createdYear": "1234",
+    "bandID": "id1697793445652",
+    "bandName": "qweeee",
+    "createdYear": 1200,
     "currentBandMember": [
-      "qwe"
-    ],
-    "previusBandMember": [],
-    "dissolvedYear": null
-  },
-  {
-    "bandName": "def",
-    "createdYear": "1788",
-    "currentBandMember": [
-      "qwe"
-    ],
-    "previusBandMember": [],
-    "dissolvedYear": null
-  },
-  {
-    "bandName": "ase5",
-    "createdYear": "4567",
-    "currentBandMember": [
-      "qwe"
+      {
+        "memberID": "id1697790207714",
+        "name": "qwe",
+        "instrument": "singer",
+        "yearJoined": 1200
+      },
+      {
+        "memberID": "id1697790225956",
+        "name": "asd",
+        "instrument": "piano",
+        "yearJoined": 2023
+      }
     ],
     "previusBandMember": [],
     "dissolvedYear": null

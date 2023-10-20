@@ -1,10 +1,12 @@
 export default class NewBand {
   bandName = "";
   bandYear = "";
-  constructor(bandName, bandYear, member) {
+  constructor(bandName, bandYear, memberID, member, instrument) {
     this.bandName = bandName;
     this.bandYear = bandYear;
+    this.memberID = memberID;
     this.bandMember = member;
+    this.instrument = instrument;
   };
 
   get bandName() {
@@ -35,9 +37,10 @@ export default class NewBand {
 
   dataInfo() {
     return {
+      bandID: 'id' + (new Date()).getTime(),
       bandName: this.bandName,
       createdYear: this.bandYear,
-      currentBandMember: [this.bandMember],
+      currentBandMember: [{ memberID: this.memberID, name: this.bandMember, instrument: this.instrument, yearJoined: this.bandYear }],
       previusBandMember: [],
       dissolvedYear: null
     };

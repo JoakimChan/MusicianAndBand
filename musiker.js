@@ -1,5 +1,3 @@
-import PromptSync from 'prompt-sync';
-const prompt = PromptSync({ sigint: true });
 import fs from 'fs';
 import NewMusiker from './newMusiker.js';
 
@@ -23,9 +21,7 @@ export default class Musician {
     }
   }
 
-  createNewArtist() {
-    let name = prompt("namn på musikern: ");
-    let birthYear = prompt("födelsdags år (YYYY): ");
+  createNewArtist(name, birthYear) {
     const music = new NewMusiker(name, birthYear);
     this.artistList.push(music.dataInfo());
     this.writeToJson();
@@ -39,42 +35,18 @@ export default class Musician {
     console.log("-------------------------------------------------------------------------------");
   }
 
-  displayArtist() {
-    if (this.getLenght() === 0) {
-      console.log('listan är tom')
-    } else {
-      this.displayAllArtist();
-      let agien = true;
-      while (agien) {
-        console.log('skriv ett nummret på artisent du vill se mer in på')
-        let val = prompt('val: ');
-        if (val > this.getLenght() || isNaN(val) || val <= 0) {
-          console.log('valet är ogtiltig');
-        } else {
-          console.log(this.artistList[val - 1])
-          agien = false;
-        }
-      }
-    }
+  displayArtist(val) {
+    console.log(this.artistList[val - 1])
   }
 
-  removeArtist() {
-    if (this.getLenght === 0) {
-      console.log('listan är tom')
-    } else {
-      this.displayAllArtist();
-      let agien = true;
-      while (agien) {
-        console.log('skriv ett nummret på artisent du vill ta bort')
-        let val = prompt('val: ');
-        if (val > this.getLenght() || isNaN(val) || val <= 0) {
-          console.log('valet är ogtiltig');
-        } else {
-          this.artistList.splice(val - 1, 1);
-          agien = false;
-        }
-      }
-    }
+  removeArtist(val) {
+    this.artistList.splice(val - 1, 1);
+    this.writeToJson();
+  }
+
+  addToABand(index, item, id, band, year) {
+    this.artistList[index].instrument.push(item);
+    this.artistList[index].currentBand.push({ bandID: id, band: band, yearJoined: year })
   }
 
   writeToJson() {

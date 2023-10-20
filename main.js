@@ -1,9 +1,7 @@
 import PromptSync from 'prompt-sync';
 const prompt = PromptSync({ sigint: true });
 import Musican from './musiker.js';
-const music = new Musican();
 import Band from './band.js';
-const band = new Band();
 import Mid from './mid.js';
 let agien = true;
 
@@ -42,23 +40,96 @@ switch (mainChoice) {
 */
 
 while (agien) {
-  console.log("1.skapa en musiker 2.visa en spesifik musiker 3.ta bort en artist 4. skapa band 5.visa en spesifik band q.avsluta");
+  const music = new Musican();
+  const band = new Band();
+  console.log("1.skapa en musiker 2.visa en spesifik musiker 3.ta bort en artist 4.skapa band 5.visa en spesifik band 6.lägg till en musiker till ett band q.avsluta");
   let val = prompt('val: ');
   switch (val) {
     case '1':
-      music.createNewArtist();
+      let name = prompt("namn på musikern: ");
+      let birthYear = parseInt(prompt("födelsdags år (YYYY): "));
+      music.createNewArtist(name, birthYear);
       break;
     case '2':
-      music.displayArtist();
+      if (music.getLenght() === 0) {
+        console.log('listan är tom')
+      } else {
+        music.displayAllArtist();
+        let agien = true;
+        while (agien) {
+          console.log('skriv ett nummret på artisent du vill se mer in på')
+          let val = prompt('val: ');
+          if (val > music.getLenght() || isNaN(val) || val <= 0) {
+            console.log('valet är ogtiltig');
+          } else {
+            music.displayArtist(val);
+            agien = false;
+          }
+        }
+      }
       break;
     case '3':
-      Musican.removeArtist();
+      if (music.getLenght === 0) {
+        console.log('listan är tom')
+      } else {
+        music.displayAllArtist();
+        let agien = true;
+        while (agien) {
+          console.log('skriv ett nummret på artisent du vill ta bort')
+          let val = prompt('val: ');
+          if (val > music.getLenght() || isNaN(val) || val <= 0) {
+            console.log('valet är ogtiltig');
+          } else {
+            Mid.removeArtist(val);
+            music.removeArtist(val);
+            agien = false;
+          }
+        }
+      }
       break;
     case '4':
-      Mid.createBand();
+      if (music.getLenght() === 0) {
+        console.log("kan tyvärr inte skapa band, det finns inga musiker");
+      } else {
+        music.displayAllArtist();
+        let val = prompt("lägg till en musiker som första medlem: ")
+        let instrument = prompt("instrument/roll musikern har: ")
+        let bandName = prompt("bandet heter: ");
+        let yearCreated = parseInt(prompt("årtal bandet bildades: "));
+        Mid.createBand(val, instrument, bandName, yearCreated);
+      }
       break;;
     case '5':
-      band.displayBand();
+      if (band.getLenght() === 0) {
+        console.log('listan är tom')
+      } else {
+        band.displayAllband();
+        let agien = true;
+        while (agien) {
+          console.log('skriv ett nummret på bandet du vill se mer in på')
+          let val = prompt('val: ');
+          if (val > band.getLenght() || isNaN(val) || val <= 0) {
+            console.log('valet är ogtiltig');
+          } else {
+            band.displayBand(val);
+            agien = false;
+          }
+        }
+      }
+      break;
+    case '6':
+      if (music.getLenght() === 0) {
+        console.log("kan tyvärr inte lägga till en musiker till ett band, det finns inga musiker");
+      } else if (band.getLenght() === 0) {
+        console.log("kan tyvärr inte lägga till en musiker till ett band, det finns inga band");
+      } else {
+        music.displayAllArtist();
+        let val1 = prompt("musiker som du vill ha: ");
+        let instrument = prompt("instrument/roll musikern har: ")
+        band.displayAllband();
+        let val2 = prompt("band du till lägga till i: ");
+        Mid.addArtistToBand(val1, instrument, val2);
+      }
       break;
     case 'q':
       agien = false;

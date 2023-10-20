@@ -36,6 +36,7 @@ export default class NewMusiker {
 
   dataInfo() {
     return {
+      ID: 'id' + (new Date()).getTime(),
       name: this.name,
       birthYear: this.birthYear,
       currentBand: [],

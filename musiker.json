@@ -1,23 +1,38 @@
 [
   {
+    "ID": "id1697790207714",
     "name": "qwe",
-    "birthYear": "1234",
-    "currentBand": [],
+    "birthYear": 1234,
+    "currentBand": [
+      {
+        "bandID": "jdkk",
+        "band": 1990
+      },
+      {
+        "bandID": "id1697793445652",
+        "band": "qweeee",
+        "yearJoined": 1200
+      }
+    ],
     "previusBand": [],
-    "instrument": []
+    "instrument": [
+      "piano",
+      "singer"
+    ]
   },
   {
-    "name": "qwe",
-    "birthYear": "1998",
-    "currentBand": [],
+    "ID": "id1697790225956",
+    "name": "asd",
+    "birthYear": 2345,
+    "currentBand": [
+      {
+        "bandID": "id1697793445652",
+        "yearJoined": 2023
+      }
+    ],
     "previusBand": [],
-    "instrument": []
-  },
-  {
-    "name": "dge",
-    "birthYear": "1212",
-    "currentBand": [],
-    "previusBand": [],
-    "instrument": []
+    "instrument": [
+      "piano"
+    ]
   }
 ]
