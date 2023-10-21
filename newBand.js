@@ -38,7 +38,7 @@ export default class NewBand {
   dataInfo() {
     return {
       bandID: 'id' + (new Date()).getTime(),
-      bandName: this.bandName,
+      name: this.bandName,
       createdYear: this.bandYear,
       currentBandMember: [{ memberID: this.memberID, name: this.bandMember, instrument: this.instrument, yearJoined: this.bandYear }],
       previusBandMember: [],

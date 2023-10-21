@@ -49,6 +49,12 @@ export default class Musician {
     this.artistList[index].currentBand.push({ bandID: id, band: band, yearJoined: year })
   }
 
+  currentToPreviu(index, id) {
+    let band = this.artistList[index].currentBand.find(x => x.bandID === id);
+    this.artistList[index].previusBand.push(band)
+    this.artistList[index].currentBand.splice(this.artistList[index].currentBand.findIndex(x => x.bandID === id), 1)
+  }
+
   writeToJson() {
     fs.writeFileSync('./musiker.json', JSON.stringify(this.artistList, null, 2), (err) => {
       if (err) throw err;

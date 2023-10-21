@@ -28,7 +28,15 @@ export default class Band {
   displayAllband() {
     console.log("-------------------------------------------------------------------------------");
     for (let i = 0; i < this.getLenght(); i++) {
-      console.log(`${i + 1}. ${this.bandList[i].bandName}`);
+      console.log(`${i + 1}. ${this.bandList[i].name}`);
+    }
+    console.log("-------------------------------------------------------------------------------");
+  }
+
+  displayCurrentMember(val) {
+    console.log("-------------------------------------------------------------------------------");
+    for (let i = 0; i < this.bandList[val - 1].currentBandMember.length; i++) {
+      console.log(`${i + 1}. ${this.bandList[val - 1].currentBandMember[i].name} ${this.bandList[val - 1].currentBandMember[i].instrument}`);
     }
     console.log("-------------------------------------------------------------------------------");
   }
@@ -53,4 +61,10 @@ export default class Band {
     this.bandList[index].currentBandMember.push({ memberID: id, name: name, instrument: instrument, yearJoined: yearJoined })
   }
 
+  currentToPreviu(index, id) {
+    let member = this.bandList[index].currentBandMember.find(x => x.memberID === id);
+    this.bandList[index].previusBandMember.push(member)
+    this.bandList[index].currentBandMember.splice(this.bandList[index].currentBandMember.findIndex(x => x.memberID === id), 1);
+
+  }
 }
