@@ -11,11 +11,12 @@ while (run) {
   console.log(`
   1.skapa en musiker
   2.visa en spesifik musiker
-  3.ta bort en musiker
-  4.skapa band
-  5.visa en spesifik band
-  6.lägg till en musiker till ett band
-  7.ta bort en musiker från ett band
+  3.skapa band
+  4.visa en spesifik band
+  5.lägg till en musiker till ett band
+  6.ta bort en musiker från ett band
+  7.ta bort en musiker
+  8.ta bort ett band
   
   q.avsluta `);
   let val = prompt('val: ');
@@ -34,8 +35,7 @@ while (run) {
         music.displayAllArtist();
         let agien = true;
         while (agien) {
-          console.log('skriv nummret på musikern du vill se mer in på')
-          let val = prompt('val: ');
+          let val = prompt("nummret på musikern du vill se mer in på: ");
           if (val > music.getLenght() || isNaN(val) || val <= 0) {
             console.log('valet är ogtiltig');
           } else {
@@ -46,27 +46,7 @@ while (run) {
       }
       break;
     case '3':
-      console.log("3.ta bort en musiker")
-      if (music.getLenght === 0) {
-        console.log('det finns inga musiker, behöver skapa en musiker först!')
-      } else {
-        music.displayAllArtist();
-        let agien = true;
-        while (agien) {
-          console.log('skriv nummret på musiker du vill ta bort')
-          let val = prompt('val: ');
-          if (val > music.getLenght() || isNaN(val) || val <= 0) {
-            console.log('valet är ogtiltig');
-          } else {
-            Mid.removeArtist(val);
-            music.removeArtist(val);
-            agien = false;
-          }
-        }
-      }
-      break;
-    case '4':
-      console.log("4.skapa band");
+      console.log("3.skapa band");
       if (music.getLenght() === 0) {
         console.log("kan tyvärr inte skapa band när det inte finns nån musiker, behöver skapa en musiker först!");
       } else {
@@ -78,16 +58,15 @@ while (run) {
         Mid.createBand(val, instrument, bandName, yearCreated);
       }
       break;;
-    case '5':
-      console.log("5.visa en spesifik band");
+    case '4':
+      console.log("4.visa en spesifik band");
       if (band.getLenght() === 0) {
         console.log('det finns inga band, behöver skapa ett band först!')
       } else {
         band.displayAllband();
         let agien = true;
         while (agien) {
-          console.log('skriv ett nummret på bandet du vill se mer in på')
-          let val = prompt('val: ');
+          let val = prompt('nummret på bandet du vill se mer in på: ');
           if (val > band.getLenght() || isNaN(val) || val <= 0) {
             console.log('valet är ogtiltig');
           } else {
@@ -97,34 +76,75 @@ while (run) {
         }
       }
       break;
-    case '6':
-      console.log("6.lägg till en musiker till ett band");
+    case '5':
+      console.log("5.lägg till en musiker till ett band");
       if (music.getLenght() === 0) {
         console.log("kan tyvärr inte lägga till en musiker till ett band när det inte finns nån musiker, behöber skapa en musiker först!");
       } else if (band.getLenght() === 0) {
         console.log("kan tyvärr inte lägga till en musiker till ett band när det finns inga nån band, behöver skapa ett band först!");
       } else {
         music.displayAllArtist();
-        let val1 = prompt("musiker som du vill ha: ");
-        let instrument = prompt("instrument/roll musikern har: ")
-        band.displayAllband();
-        let val2 = prompt("band du till lägga till i: ");
-        Mid.addArtistToBand(val1, instrument, val2);
+        const val1 = prompt("nummret på musiker som du vill ha: ");
+        const instrument = prompt("instrument/roll musikern har: ")
+        const templist = band.displayOngoingBand();
+        if (templist.length === 0) {
+          console.log("finns inga band som man kan lägga till!")
+        } else {
+          const val2 = prompt("band du till lägga till i: ");
+          Mid.addArtistToBand(val1, instrument, templist[val2 - 1]);
+        }
       }
       break;
-    case '7':
-      console.log("7.ta bort en musiker från ett band");
+    case '6':
+      console.log("6.ta bort en musiker från ett band");
       if (music.getLenght() === 0) {
         console.log("kan tyvärr inte ta bort en musiker från ett band när det inte finns nån musiker, behöber skapa en musiker först!");
       } else if (band.getLenght() === 0) {
         console.log("kan tyvärr inte ta bort en musiker från ett band när det finns inga nån band, behöver skapa ett band först!");
       } else {
-        band.displayAllband();
+        const tempBandList = band.displayOngoingBand();
         let val1 = prompt("band du vill ha: ");
-        band.displayCurrentMember(val1);
-        let val2 = prompt("musikern du till ta bort: ");
-        Mid.moveArtist(val1, val2);
+        const tempArtisList = band.displayCurrentMember(val1);
+        const val2 = prompt("musikern du till ta bort: ");
+        Mid.moveArtist(tempBandList[val1 - 1], tempArtisList[val2 - 1]);
       }
+      break;
+    case '7':
+      console.log("7.ta bort en musiker")
+      if (music.getLenght === 0) {
+        console.log('det finns inga musiker, behöver skapa en musiker först!')
+      } else {
+        music.displayAllArtist();
+        let agien = true;
+        while (agien) {
+          let val = prompt('nummret på musiker du vill ta bort: ');
+          if (val > music.getLenght() || isNaN(val) || val <= 0) {
+            console.log('valet är ogtiltig');
+          } else {
+            Mid.removeArtist(val);
+            agien = false;
+          }
+        }
+      }
+      break;
+    case '8':
+      console.log("8.ta bort ett band")
+      if (band.getLenght() === 0) {
+        console.log('det finns inga band, behöver skapa ett band först!')
+      } else {
+        band.displayAllband()
+        let agien = true;
+        while (agien) {
+          let val = prompt('nummret på bandet du vill ta bort: ');
+          if (val > band.getLenght() || isNaN(val) || val <= 0) {
+            console.log('valet är ogtiltig');
+          } else {
+            Mid.removeBand(val);
+            agien = false;
+          }
+        }
+      }
+      break;
     case 'q':
       run = false;
       break;

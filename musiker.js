@@ -39,11 +39,6 @@ export default class Musician {
     console.log(this.artistList[val - 1])
   }
 
-  removeArtist(val) {
-    this.artistList.splice(val - 1, 1);
-    this.writeToJson();
-  }
-
   addToABand(index, item, id, band, year) {
     this.artistList[index].instrument.push(item);
     this.artistList[index].currentBand.push({ bandID: id, band: band, yearJoined: year })
@@ -64,5 +59,17 @@ export default class Musician {
 
   getLenght() {
     return this.artistList.length;
+  }
+
+  removeCurrentBand(index, id) {
+    this.artistList[index].currentBand.splice(this.artistList[index].currentBand.findIndex(x => x.bandID === id), 1);
+  }
+
+  removePreviusBand(index, id) {
+    this.artistList[index].previusBand.splice(this.artistList[index].previusBand.findIndex(x => x.bandID === id), 1);
+  }
+
+  removeArtist(val) {
+    this.artistList.splice((val - 1), 1);
   }
 };
