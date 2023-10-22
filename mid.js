@@ -14,9 +14,13 @@ export default class Mid {
   }
 
   addArtistToBand(musiker, instrument, bandId) {
-    this.m.addToABand((musiker - 1), instrument, bandId, this.b.bandList[(this.b.bandList.findIndex(x => x.bandID === bandId))].name, new Date().getFullYear());
-    this.b.addToABand((this.b.bandList.findIndex(x => x.bandID === bandId)), this.m.artistList[musiker - 1].memberID, this.m.artistList[musiker - 1].name, instrument, new Date().getFullYear());
-    this.writeToJson();
+    if (this.m.artistList[musiker - 1].currentBand.some(x => x.bandID === bandId)) {
+      console.log("musikern finns redan med i bandet!")
+    } else {
+      this.m.addToABand((musiker - 1), instrument, bandId, this.b.bandList[(this.b.bandList.findIndex(x => x.bandID === bandId))].name, new Date().getFullYear());
+      this.b.addToABand((this.b.bandList.findIndex(x => x.bandID === bandId)), this.m.artistList[musiker - 1].memberID, this.m.artistList[musiker - 1].name, instrument, new Date().getFullYear());
+      this.writeToJson();
+    }
   }
 
   moveArtist(bandId, musikerId) {

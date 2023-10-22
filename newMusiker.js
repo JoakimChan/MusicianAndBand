@@ -1,7 +1,4 @@
 export default class NewMusiker {
-  name = "";
-  birthYear = "";
-
   constructor(name, birthYear) {
     this.name = name;
     this.birthYear = birthYear;
@@ -21,7 +18,7 @@ export default class NewMusiker {
       this.name = newName;
       return true;
     } else {
-      console.log("Ett nytt förnamn måste innehålla minst 1 symboler!");
+      console.log("namnet måste innehålla minst 1 symboler!");
     }
     return false;
   }

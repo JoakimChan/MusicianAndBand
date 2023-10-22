@@ -23,8 +23,6 @@ export default class Musician {
 
   createNewArtist(name, birthYear) {
     const music = new NewMusiker();
-    music.theName = name;
-    music.birthYear = birthYear;
     if (music) {
       this.artistList.push(music.dataInfo());
       this.writeToJson();
