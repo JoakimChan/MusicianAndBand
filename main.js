@@ -8,6 +8,7 @@ let run = true;
 while (run) {
   const music = new Musican();
   const band = new Band();
+  const mid = new Mid();
   console.log(`
   1.skapa en musiker
   2.visa en spesifik musiker
@@ -55,7 +56,7 @@ while (run) {
         let instrument = prompt("instrument/roll musikern har: ")
         let bandName = prompt("bandet heter: ");
         let yearCreated = parseInt(prompt("årtal bandet bildades: "));
-        Mid.createBand(val, instrument, bandName, yearCreated);
+        mid.createBand(val, instrument, bandName, yearCreated);
       }
       break;;
     case '4':
@@ -91,7 +92,7 @@ while (run) {
           console.log("finns inga band som man kan lägga till!")
         } else {
           const val2 = prompt("band du till lägga till i: ");
-          Mid.addArtistToBand(val1, instrument, templist[val2 - 1]);
+          mid.addArtistToBand(val1, instrument, templist[val2 - 1]);
         }
       }
       break;
@@ -106,7 +107,7 @@ while (run) {
         let val1 = prompt("band du vill ha: ");
         const tempArtisList = band.displayCurrentMember(val1);
         const val2 = prompt("musikern du till ta bort: ");
-        Mid.moveArtist(tempBandList[val1 - 1], tempArtisList[val2 - 1]);
+        mid.moveArtist(tempBandList[val1 - 1], tempArtisList[val2 - 1]);
       }
       break;
     case '7':
@@ -121,7 +122,7 @@ while (run) {
           if (val > music.getLenght() || isNaN(val) || val <= 0) {
             console.log('valet är ogtiltig');
           } else {
-            Mid.removeArtist(val);
+            mid.removeArtist(val);
             agien = false;
           }
         }
@@ -139,7 +140,7 @@ while (run) {
           if (val > band.getLenght() || isNaN(val) || val <= 0) {
             console.log('valet är ogtiltig');
           } else {
-            Mid.removeBand(val);
+            mid.removeBand(val);
             agien = false;
           }
         }
