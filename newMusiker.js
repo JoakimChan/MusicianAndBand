@@ -7,7 +7,7 @@ export default class NewMusiker {
     this.birthYear = birthYear;
   };
 
-  get name() {
+  get theName() {
     return this.name;
   }
 
@@ -16,12 +16,14 @@ export default class NewMusiker {
   };
 
 
-  set name(newName) {
+  set theName(newName) {
     if (newName.length >= 1) {
       this.name = newName;
+      return true;
     } else {
       console.log("Ett nytt förnamn måste innehålla minst 1 symboler!");
     }
+    return false;
   }
 
   set birthYear(newBirthYear) {
@@ -31,7 +33,9 @@ export default class NewMusiker {
       console.log('födesedatum kan bara innehålla siffror')
     } else {
       this.birthYear = newBirthYear;
+      return true;
     }
+    return false;
   };
 
   dataInfo() {

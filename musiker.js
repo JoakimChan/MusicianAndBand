@@ -22,9 +22,15 @@ export default class Musician {
   }
 
   createNewArtist(name, birthYear) {
-    const music = new NewMusiker(name, birthYear);
-    this.artistList.push(music.dataInfo());
-    this.writeToJson();
+    const music = new NewMusiker();
+    music.theName = name;
+    music.birthYear = birthYear;
+    if (music) {
+      this.artistList.push(music.dataInfo());
+      this.writeToJson();
+      return;
+    }
+    console.log("gick inte skapa, va säker du fyller in rätt saker!")
   };
 
   displayAllArtist() {
