@@ -114,16 +114,18 @@ while (run) {
         console.log("kan tyvärr inte ta bort en musiker från ett band när det finns inga nån band, behöver skapa ett band först!");
       } else {
         const tempBandList = band.displayOngoingBand();
-        let val1 = prompt("band du vill ha: ");
-        if (val1 > tempBandList.length || val1 < 1 || isNaN(val1)) {
-          console.log("valet är ogiltig")
-        } else {
-          const tempArtisList = band.displayCurrentMember(val1);
-          const val2 = prompt("musikern du till ta bort: ");
-          if (val2 > tempArtisList.length || val2 < 1 || isNaN(val2)) {
+        if (tempBandList.length > 0) {
+          let val1 = prompt("band du vill ha: ");
+          if (val1 > tempBandList.length || val1 < 1 || isNaN(val1)) {
             console.log("valet är ogiltig")
           } else {
-            mid.moveArtist(tempBandList[val1 - 1], tempArtisList[val2 - 1]);
+            const tempArtisList = band.displayCurrentMember(val1);
+            const val2 = prompt("musikern du till ta bort: ");
+            if (val2 > tempArtisList.length || val2 < 1 || isNaN(val2)) {
+              console.log("valet är ogiltig")
+            } else {
+              mid.moveArtist(tempBandList[val1 - 1], tempArtisList[val2 - 1]);
+            }
           }
         }
       }

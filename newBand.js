@@ -42,7 +42,7 @@ export default class NewBand {
       createdYear: this.bandYear,
       currentBandMember: [{ memberID: this.memberID, name: this.bandMember, instrument: this.instrument, yearJoined: this.bandYear }],
       previusBandMember: [],
-      dissolvedYear: null
+      dissolved: null
     };
   }
 }

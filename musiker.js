@@ -50,8 +50,9 @@ export default class Musician {
     this.artistList[index].currentBand.push({ bandID: id, band: band, yearJoined: year })
   }
 
-  currentToPreviu(index, id) {
+  currentToPreviu(index, id, date) {
     let band = this.artistList[index].currentBand.find(x => x.bandID === id);
+    band["timeLeft"] = date;
     this.artistList[index].previusBand.push(band)
     this.artistList[index].currentBand.splice(this.artistList[index].currentBand.findIndex(x => x.bandID === id), 1)
   }

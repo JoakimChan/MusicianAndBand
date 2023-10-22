@@ -36,15 +36,23 @@ export default class Band {
   displayOngoingBand() {
     const temp = [];
     let tempIndex = 1;
-    console.log("-------------------------------------------------------------------------------");
     for (let i = 0; i < this.getLenght(); i++) {
-      if (this.bandList[i].dissolvedYear === null) {
-        console.log(`${tempIndex}. ${this.bandList[i].name}`);
+      if (this.bandList[i].dissolved === null) {
         temp.push(this.bandList[i].bandID);
-        tempIndex++;
       }
     }
-    console.log("-------------------------------------------------------------------------------");
+    if (temp.length === 0) {
+      console.log("det finns inga tillgängliga band!")
+    } else {
+      console.log("-------------------------------------------------------------------------------");
+      for (let i = 0; i < this.getLenght(); i++) {
+        if (this.bandList[i].dissolved === null) {
+          console.log(`${tempIndex}. ${this.bandList[i].name}`);
+          tempIndex++;
+        }
+      }
+      console.log("-------------------------------------------------------------------------------");
+    }
     return temp;
   }
 
@@ -62,6 +70,7 @@ export default class Band {
   createBand(bandName, yearCreated, id, artistNamn, instrument) {
     const band = new NewBand(bandName, yearCreated, id, artistNamn, instrument);
     this.bandList.push(band.dataInfo());
+    return band.dataInfo().bandID;
   }
 
   writeToJson() {
@@ -79,14 +88,21 @@ export default class Band {
     this.bandList[index].currentBandMember.push({ memberID: id, name: name, instrument: instrument, yearJoined: yearJoined })
   }
 
-  currentToPreviu(index, id) {
+  currentToPreviu(index, id, date) {
     let member = this.bandList[index].currentBandMember.find(x => x.memberID === id);
+    member["timeLeft"] = date;
     this.bandList[index].previusBandMember.push(member)
     this.bandList[index].currentBandMember.splice(this.bandList[index].currentBandMember.findIndex(x => x.memberID === id), 1);
+    if (this.bandList[index].currentBandMember.length === 0) {
+      this.bandList[index].dissolved = date;
+    }
   }
 
   removeCurrentMember(index, id) {
     this.bandList[index].currentBandMember.splice(this.bandList[index].currentBandMember.findIndex(x => x.memberID === id), 1);
+    if (this.bandList[index].currentBandMember.length === 0) {
+      this.bandList[index].dissolved = new Date().toLocaleString();
+    }
   }
 
   removePreviusMember(index, id) {

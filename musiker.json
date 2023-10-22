@@ -1,31 +1,18 @@
 [
   {
-    "memberID": "id1697971735976",
-    "name": "",
-    "birthYear": 23,
-    "currentBand": [],
-    "previusBand": [],
-    "instrument": []
-  },
-  {
-    "memberID": "id1697972958688",
-    "name": "",
+    "memberID": "id1698007117994",
+    "name": "qwe",
     "birthYear": 1234,
     "currentBand": [],
     "previusBand": [],
-    "instrument": []
+    "instrument": [
+      "singer"
+    ]
   },
   {
-    "memberID": "id1697973888086",
-    "name": "1",
-    "birthYear": null,
-    "currentBand": [],
-    "previusBand": [],
-    "instrument": []
-  },
-  {
-    "memberID": "id1697973916939",
-    "birthYear": 1234,
+    "memberID": "id1698007142071",
+    "name": "asd",
+    "birthYear": 2345,
     "currentBand": [],
     "previusBand": [],
     "instrument": []

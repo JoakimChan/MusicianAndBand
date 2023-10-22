@@ -8,8 +8,8 @@ export default class Mid {
   }
 
   createBand(musiker, instrument, bandName, yearCreated) {
-    this.b.createBand(bandName, yearCreated, this.m.artistList[musiker - 1].memberID, this.m.artistList[musiker - 1].name, instrument);
-    this.m.addToABand((musiker - 1), instrument, this.b.bandList[musiker - 1].bandID, bandName, yearCreated);
+    let temp = this.b.createBand(bandName, yearCreated, this.m.artistList[musiker - 1].memberID, this.m.artistList[musiker - 1].name, instrument);
+    this.m.addToABand((musiker - 1), instrument, temp, bandName, yearCreated);
     this.writeToJson();
   }
 
@@ -20,8 +20,9 @@ export default class Mid {
   }
 
   moveArtist(bandId, musikerId) {
-    this.b.currentToPreviu((this.b.bandList.findIndex(x => x.bandID === bandId)), musikerId);
-    this.m.currentToPreviu((this.m.artistList.findIndex(x => x.memberID === musikerId)), bandId);
+    let date = new Date().toLocaleString();
+    this.b.currentToPreviu((this.b.bandList.findIndex(x => x.bandID === bandId)), musikerId, date);
+    this.m.currentToPreviu((this.m.artistList.findIndex(x => x.memberID === musikerId)), bandId, date);
     this.writeToJson();
   }
 
