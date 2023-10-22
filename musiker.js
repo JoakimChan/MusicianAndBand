@@ -36,7 +36,7 @@ export default class Musician {
   displayAllArtist() {
     console.log("-------------------------------------------------------------------------------");
     for (let i = 0; i < this.getLenght(); i++) {
-      console.log(`${i + 1}. ${this.artistList[i].name} - ${this.artistList[i].birthYear} år`);
+      console.log(`${i + 1}. ${this.artistList[i].name} - ${new Date().getFullYear() - this.artistList[i].birthYear} år`);
     }
     console.log("-------------------------------------------------------------------------------");
   }
@@ -45,8 +45,10 @@ export default class Musician {
     console.log(this.artistList[val - 1])
   }
 
-  addToABand(index, item, id, band, year) {
-    this.artistList[index].instrument.push(item);
+  addToABand(index, instrument, id, band, year) {
+    if (!this.artistList[index].instrument.includes(instrument)) {
+      this.artistList[index].instrument.push(instrument);
+    }
     this.artistList[index].currentBand.push({ bandID: id, band: band, yearJoined: year })
   }
 

@@ -19,7 +19,8 @@ while (run) {
   7.ta bort en musiker
   8.ta bort ett band
   
-  q.avsluta `);
+  q.avsluta
+  `);
   let val = prompt('val: ');
   switch (val) {
     case '1':
@@ -56,7 +57,7 @@ while (run) {
         if (val < 1 || val > music.getLenght() || isNaN(val)) {
           console.log("valet finns inte!")
         } else {
-          let instrument = prompt("instrument/roll musikern har: ")
+          let instrument = prompt("instrument/roll musikern har: ").trim().toLowerCase();
           let bandName = prompt("bandet heter: ");
           let yearCreated = parseInt(prompt("årtal bandet bildades: "));
           mid.createBand(val, instrument, bandName, yearCreated);
@@ -91,7 +92,7 @@ while (run) {
         music.displayAllArtist();
         const val1 = prompt("nummret på musiker som du vill ha: ");
         if (val > band.getLenght() || val < 1 || isNaN(val)) {
-          const instrument = prompt("instrument/roll musikern har: ")
+          const instrument = prompt("instrument/roll musikern har: ").trim().toLowerCase();
           const templist = band.displayOngoingBand();
           if (templist.length === 0) {
             console.log("finns inga band som man kan lägga till!")

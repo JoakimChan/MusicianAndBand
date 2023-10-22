@@ -8,8 +8,8 @@ export default class Mid {
   }
 
   createBand(musiker, instrument, bandName, yearCreated) {
-    let temp = this.b.createBand(bandName, yearCreated, this.m.artistList[musiker - 1].memberID, this.m.artistList[musiker - 1].name, instrument);
-    this.m.addToABand((musiker - 1), instrument, temp, bandName, yearCreated);
+    let tempId = this.b.createBand(bandName, yearCreated, this.m.artistList[musiker - 1].memberID, this.m.artistList[musiker - 1].name, instrument);
+    this.m.addToABand((musiker - 1), instrument, tempId, bandName, yearCreated);
     this.writeToJson();
   }
 

@@ -3,7 +3,13 @@
     "memberID": "id1698007117994",
     "name": "qwe",
     "birthYear": 1234,
-    "currentBand": [],
+    "currentBand": [
+      {
+        "bandID": "id1698012373576",
+        "band": "hej",
+        "yearJoined": 1990
+      }
+    ],
     "previusBand": [],
     "instrument": [
       "singer"

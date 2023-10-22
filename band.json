@@ -6,5 +6,20 @@
     "currentBandMember": [],
     "previusBandMember": [],
     "dissolved": "10/22/2023, 11:31:44 PM"
+  },
+  {
+    "bandID": "id1698012373576",
+    "name": "hej",
+    "createdYear": 1990,
+    "currentBandMember": [
+      {
+        "memberID": "id1698007117994",
+        "name": "qwe",
+        "instrument": "singer",
+        "yearJoined": 1990
+      }
+    ],
+    "previusBandMember": [],
+    "dissolved": null
   }
 ]
