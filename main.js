@@ -16,18 +16,31 @@ while (run) {
   4.visa en spesifik band
   5.lägg till en musiker till ett band
   6.ta bort en musiker från ett band
-  7.ta bort en musiker
-  8.ta bort ett band
-  
+  7.ta bort allt info med en musiker
+  8.ta bort allt info med ett band
   q.avsluta
   `);
   let val = prompt('val: ');
   switch (val) {
     case '1':
       console.log("1.skapa en musiker")
-      let name = prompt("namn på musikern: ");
-      let birthYear = parseInt(prompt("födelsdags år (YYYY): "));
-      music.createNewArtist(name, birthYear);
+      let createMusicer = false
+      while (!createMusicer) {
+        let name = prompt("namn på musikern: ")
+        if (name.length < 1 || name.trim() === '') {
+          console.log("namnet måste innehålla minst 1 bokstav eller synbol!");
+        } else {
+          let birthYear = prompt("födelsdags år (YYYYMMDD): ");
+          if (birthYear.length != 8 || isNaN(birthYear)) {
+            console.log("felaktig födelsedag!")
+          }
+          //        else if (birthYear > parseInt(new Date().getFullYear() + new Date().getMonth() + new Date().getDate())) {}
+          else {
+            music.createNewArtist(name, birthYear);
+            createMusicer = true;
+          }
+        }
+      }
       break;
     case '2':
       console.log("2.visa en spesifik musiker")
@@ -35,15 +48,12 @@ while (run) {
         console.log('det finns inga musiker, behöver skapa en musiker först!')
       } else {
         music.displayAllArtist();
-        let agien = true;
-        while (agien) {
-          let val = prompt("nummret på musikern du vill se mer in på: ");
-          if (val > music.getLenght() || val < 1 || isNaN(val)) {
-            console.log('valet är ogtiltig');
-          } else {
-            music.displayArtist(val);
-            agien = false;
-          }
+        let val = prompt("nummret på musikern du vill se mer in på: ");
+        if (val > music.getLenght() || val < 1 || isNaN(val)) {
+          console.log('valet är ogtiltig');
+        } else {
+          music.displayArtist(val);
+          agien = false;
         }
       }
       break;
@@ -58,9 +68,21 @@ while (run) {
           console.log("valet finns inte!")
         } else {
           let instrument = prompt("instrument/roll musikern har: ").trim().toLowerCase();
-          let bandName = prompt("bandet heter: ");
-          let yearCreated = parseInt(prompt("årtal bandet bildades: "));
-          mid.createBand(val, instrument, bandName, yearCreated);
+          let bandValues = false;
+          while (!bandValues) {
+            let bandName = prompt("bandet heter: ");
+            if (bandName.length < 1 || bandName.trim() === '') {
+              console.log("namnet måste innehålla minst 1 bokstav eller synbol!");
+            } else {
+              let yearCreated = prompt("årtal bandet bildades: ");
+              if (yearCreated.length != 8 || isNaN(yearCreated)) {
+                console.log("felaktig födelsedag!")
+              } else {
+                mid.createBand(val, instrument, bandName, yearCreated);
+                bandValues = true;
+              }
+            }
+          }
         }
       }
       break;;
@@ -84,11 +106,7 @@ while (run) {
       break;
     case '5':
       console.log("5.lägg till en musiker till ett band");
-      if (music.getLenght() === 0) {
-        console.log("kan tyvärr inte lägga till en musiker till ett band när det inte finns nån musiker, behöber skapa en musiker först!");
-      } else if (band.getLenght() === 0) {
-        console.log("kan tyvärr inte lägga till en musiker till ett band när det finns inga nån band, behöver skapa ett band först!");
-      } else {
+      if (checkList()) {
         music.displayAllArtist();
         const val1 = prompt("nummret på musiker som du vill ha: ");
         if (val > band.getLenght() || val < 1 || isNaN(val)) {
@@ -109,11 +127,7 @@ while (run) {
       break;
     case '6':
       console.log("6.ta bort en musiker från ett band");
-      if (music.getLenght() === 0) {
-        console.log("kan tyvärr inte ta bort en musiker från ett band när det inte finns nån musiker, behöber skapa en musiker först!");
-      } else if (band.getLenght() === 0) {
-        console.log("kan tyvärr inte ta bort en musiker från ett band när det finns inga nån band, behöver skapa ett band först!");
-      } else {
+      if (checkList()) {
         const tempBandList = band.displayOngoingBand();
         if (tempBandList.length > 0) {
           let val1 = prompt("band du vill ha: ");
@@ -132,7 +146,7 @@ while (run) {
       }
       break;
     case '7':
-      console.log("7.ta bort en musiker")
+      console.log("7.ta bort allt info med en musiker")
       if (music.getLenght === 0) {
         console.log('det finns inga musiker, behöver skapa en musiker först!')
       } else {
@@ -150,7 +164,7 @@ while (run) {
       }
       break;
     case '8':
-      console.log("8.ta bort ett band")
+      console.log("8.ta bort allt info med ett band")
       if (band.getLenght() === 0) {
         console.log('det finns inga band, behöver skapa ett band först!')
       } else {
@@ -173,4 +187,15 @@ while (run) {
     default:
       console.log("valet finns inte!");
   }
+}
+
+function checkList() {
+  if (music.getLenght() === 0) {
+    console.log("kan tyvärr inte ta bort en musiker från ett band när det inte finns nån musiker, behöver skapa en musiker först!");
+    return false;
+  } else if (band.getLenght() === 0) {
+    console.log("kan tyvärr inte ta bort en musiker från ett band när det finns inga nån band, behöver skapa ett band först!");
+    return false;
+  }
+  return true;
 }
