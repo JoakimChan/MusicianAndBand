@@ -8,10 +8,6 @@ export default class Band {
     this.fetchData();
   };
 
-  get bandList() {
-    return this.bandList;
-  }
-
   fetchData() {
     const jsonString = fs.readFileSync("band.json");
     const data = JSON.parse(jsonString);
@@ -21,6 +17,37 @@ export default class Band {
     }
   }
 
+  createBand(bandName, yearCreated, id, artistNamn, instrument) {
+    const band = new NewBand(bandName, yearCreated, id, artistNamn, instrument);
+    this.bandList.push(band.dataInfo());
+    return band.dataInfo().bandID;
+  }
+
+  addToABand(index, id, name, instrument, yearJoined) {
+    this.bandList[index].currentBandMember.push({ memberID: id, name: name, instrument: instrument, yearJoined: yearJoined })
+  }
+
+  currentToPreviu(bandIndex, musicanID, date) {
+    let member = this.bandList[bandIndex].currentBandMember.find(x => x.memberID === musicanID);
+    member["dateItLeft"] = date;
+    this.bandList[bandIndex].previusBandMember.push(member)
+    this.bandList[bandIndex].currentBandMember.splice(this.bandList[bandIndex].currentBandMember.findIndex(x => x.memberID === musicanID), 1);
+    if (this.bandList[bandIndex].currentBandMember.length === 0) {
+      this.bandList[bandIndex].dissolved = date;
+    }
+  }
+
+  ongoingBand() {
+    const temp = [];
+    for (let i = 0; i < this.getLenght(); i++) {
+      if (this.bandList[i].dissolved === null) {
+        temp.push({ bandID: this.bandList[i].bandID, name: this.bandList[i].name, index: i });
+      }
+    }
+    return temp;
+  }
+
+  //display
   displayBand(val) {
     console.log(this.bandList[val - 1])
   }
@@ -34,43 +61,72 @@ export default class Band {
   }
 
   displayOngoingBand() {
-    const temp = [];
     let tempIndex = 1;
-    for (let i = 0; i < this.getLenght(); i++) {
-      if (this.bandList[i].dissolved === null) {
-        temp.push(this.bandList[i].bandID);
-      }
-    }
-    if (temp.length === 0) {
-      console.log("det finns inga tillgängliga band!")
-    } else {
+    const temp = this.ongoingBand()
+    if (temp.length != 0) {
       console.log("-------------------------------------------------------------------------------");
-      for (let i = 0; i < this.getLenght(); i++) {
-        if (this.bandList[i].dissolved === null) {
-          console.log(`${tempIndex}. ${this.bandList[i].name}`);
+      for (let i = 0; i < temp.length; i++) {
+        console.log(`${tempIndex}. ${temp[i].name}`);
+        tempIndex++;
+      }
+      console.log("-------------------------------------------------------------------------------");
+    }
+    return temp;
+  }
+
+  displayAvaliableBand(musicianID) {
+    let tempIndex = 1
+    const temp = this.ongoingBand();
+    const temp2 = [];
+    if (temp.length != 0) {
+
+      for (let i = 0; i < temp.length; i++) {
+        if (!this.bandList[temp[i].index].currentBandMember.some(x => x.memberID === musicianID))
+          temp2.push(temp[i])
+      }
+      if (temp2.length != 0) {
+        console.log("-------------------------------------------------------------------------------");
+        for (let i = 0; i < temp2.length; i++) {
+          console.log(`${tempIndex}. ${temp2[i].name}`)
           tempIndex++;
         }
+        console.log("-------------------------------------------------------------------------------");
       }
-      console.log("-------------------------------------------------------------------------------");
     }
-    return temp;
+    return temp2;
   }
 
-  displayCurrentMember(val) {
+  displayCurrentMember(index) {
     const temp = [];
     console.log("-------------------------------------------------------------------------------");
-    for (let i = 0; i < this.bandList[val - 1].currentBandMember.length; i++) {
-      console.log(`${i + 1}. ${this.bandList[val - 1].currentBandMember[i].name} ${this.bandList[val - 1].currentBandMember[i].instrument}`);
-      temp.push(this.bandList[val - 1].currentBandMember[i].memberID);
+    for (let i = 0; i < this.bandList[index].currentBandMember.length; i++) {
+      console.log(`${i + 1}. ${this.bandList[index].currentBandMember[i].name} ${this.bandList[index].currentBandMember[i].instrument}`);
+      temp.push(this.bandList[index].currentBandMember[i].memberID);
     }
     console.log("-------------------------------------------------------------------------------");
     return temp;
   }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  createBand(bandName, yearCreated, id, artistNamn, instrument) {
-    const band = new NewBand(bandName, yearCreated, id, artistNamn, instrument);
-    this.bandList.push(band.dataInfo());
-    return band.dataInfo().bandID;
+  //remove
+  removeCurrentMember(bandIndex, musicianID) {
+    this.bandList[bandIndex].currentBandMember.splice(this.bandList[bandIndex].currentBandMember.findIndex(x => x.memberID === musicianID), 1);
+    if (this.bandList[bandIndex].currentBandMember.length === 0) {
+      this.bandList[bandIndex].dissolved = new Date().toLocaleString();
+    }
+  }
+
+  removePreviusMember(BandIndex, musicianID) {
+    this.bandList[BandIndex].previusBandMember.splice(this.bandList[BandIndex].previusBandMember.findIndex(x => x.memberID === musicianID), 1);
+  }
+
+  removeBand(val) {
+    this.bandList.splice((val - 1), 1);
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  getLenght() {
+    return this.bandList.length;
   }
 
   writeToJson() {
@@ -78,38 +134,5 @@ export default class Band {
       if (err) throw err;
       console.log('artist data writen to file')
     })
-  }
-
-  getLenght() {
-    return this.bandList.length;
-  }
-
-  addToABand(index, id, name, instrument, yearJoined) {
-    this.bandList[index].currentBandMember.push({ memberID: id, name: name, instrument: instrument, yearJoined: yearJoined })
-  }
-
-  currentToPreviu(index, id, date) {
-    let member = this.bandList[index].currentBandMember.find(x => x.memberID === id);
-    member["timeLeft"] = date;
-    this.bandList[index].previusBandMember.push(member)
-    this.bandList[index].currentBandMember.splice(this.bandList[index].currentBandMember.findIndex(x => x.memberID === id), 1);
-    if (this.bandList[index].currentBandMember.length === 0) {
-      this.bandList[index].dissolved = date;
-    }
-  }
-
-  removeCurrentMember(index, id) {
-    this.bandList[index].currentBandMember.splice(this.bandList[index].currentBandMember.findIndex(x => x.memberID === id), 1);
-    if (this.bandList[index].currentBandMember.length === 0) {
-      this.bandList[index].dissolved = new Date().toLocaleString();
-    }
-  }
-
-  removePreviusMember(index, id) {
-    this.bandList[index].previusBandMember.splice(this.bandList[index].previusBandMember.findIndex(x => x.memberID === id), 1);
-  }
-
-  removeBand(val) {
-    this.bandList.splice((val - 1), 1);
   }
 }

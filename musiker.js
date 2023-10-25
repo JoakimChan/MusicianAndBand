@@ -2,77 +2,93 @@ import fs from 'fs';
 import NewMusiker from './newMusiker.js';
 
 export default class Musician {
-  artistList = [];
+  musicList = [];
 
   constructor() {
     this.fetchData();
   };
-
-  get artistList() {
-    return this.artistList;
-  }
 
   fetchData() {
     const jsonString = fs.readFileSync("musiker.json");
     const data = JSON.parse(jsonString);
 
     for (let i = 0; i < data.length; i++) {
-      this.artistList.push(data[i]);
+      this.musicList.push(data[i]);
     }
   }
 
-  createNewArtist(name, birthYear) {
-    const music = new NewMusiker(name, birthYear);
-    this.artistList.push(music.dataInfo());
+  createNewArtist(musicianName, birthDate) {
+    const music = new NewMusiker(musicianName, birthDate);
+    this.musicList.push(music.dataInfo());
     this.writeToJson();
   };
 
+  addToABand(musicianIndex, instrument, bandID, bandName, date) {
+    if (!this.musicList[musicianIndex].instrument.includes(instrument)) {
+      this.musicList[musicianIndex].instrument.push(instrument);
+    }
+    this.musicList[musicianIndex].currentBand.push({ bandID: bandID, band: bandName, Joined: date })
+  }
+
+  currentToPreviu(musicianIndex, bandID, date) {
+    let band = this.musicList[musicianIndex].currentBand.find(x => x.bandID === bandID);
+    band["timeLeft"] = date;
+    this.musicList[musicianIndex].previusBand.push(band)
+    this.musicList[musicianIndex].currentBand.splice(this.musicList[musicianIndex].currentBand.findIndex(x => x.bandID === bandID), 1)
+  }
+
+  //display
   displayAllArtist() {
     console.log("-------------------------------------------------------------------------------");
     for (let i = 0; i < this.getLenght(); i++) {
-      console.log(`${i + 1}. ${this.artistList[i].name} - ${new Date().getFullYear() - this.artistList[i].birthYear} år`);
+      console.log(`${i + 1}. ${this.musicList[i].name} - ${this.getAge(this.musicList[i].birthYear)} år`);
     }
     console.log("-------------------------------------------------------------------------------");
   }
 
-  displayArtist(val) {
-    console.log(this.artistList[val - 1])
+  displayArtist(musicianIndex) {
+    console.log(this.musicList[musicianIndex])
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //remove
+  removeCurrentBand(musicianIndex, bandID) {
+    this.musicList[musicianIndex].currentBand.splice(this.musicList[musicianIndex].currentBand.findIndex(x => x.bandID === bandID), 1);
   }
 
-  addToABand(index, instrument, id, band, year) {
-    if (!this.artistList[index].instrument.includes(instrument)) {
-      this.artistList[index].instrument.push(instrument);
-    }
-    this.artistList[index].currentBand.push({ bandID: id, band: band, yearJoined: year })
-  }
-
-  currentToPreviu(index, id, date) {
-    let band = this.artistList[index].currentBand.find(x => x.bandID === id);
-    band["timeLeft"] = date;
-    this.artistList[index].previusBand.push(band)
-    this.artistList[index].currentBand.splice(this.artistList[index].currentBand.findIndex(x => x.bandID === id), 1)
-  }
-
-  writeToJson() {
-    fs.writeFileSync('./musiker.json', JSON.stringify(this.artistList, null, 2), (err) => {
-      if (err) throw err;
-      console.log('artist data writen to file')
-    })
-  }
-
-  getLenght() {
-    return this.artistList.length;
-  }
-
-  removeCurrentBand(index, id) {
-    this.artistList[index].currentBand.splice(this.artistList[index].currentBand.findIndex(x => x.bandID === id), 1);
-  }
-
-  removePreviusBand(index, id) {
-    this.artistList[index].previusBand.splice(this.artistList[index].previusBand.findIndex(x => x.bandID === id), 1);
+  removePreviusBand(musicianIndex, bandID) {
+    this.musicList[musicianIndex].previusBand.splice(this.musicList[musicianIndex].previusBand.findIndex(x => x.bandID === bandID), 1);
   }
 
   removeArtist(val) {
-    this.artistList.splice((val - 1), 1);
+    this.musicList.splice((val - 1), 1);
+  }
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  getAge(dateString) {
+    const year = Number(dateString.substr(0, 4));
+    const month = Number(dateString.substr(4, 2)) - 1;
+    const day = Number(dateString.substr(6, 2));
+    if (month > 11 || month < 0 || day > 31 || day < 1) {
+      return false;
+    } else {
+      const today = new Date();
+      const age = today.getFullYear() - year;
+      if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
+        age--;
+      }
+      return age;
+    }
+  }
+
+  getLenght() {
+    return this.musicList.length;
+  }
+
+  writeToJson() {
+    fs.writeFileSync('./musiker.json', JSON.stringify(this.musicList, null, 2), (err) => {
+      if (err) throw err;
+      console.log('artist data writen to file')
+    })
   }
 };

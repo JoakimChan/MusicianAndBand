@@ -1,14 +1,14 @@
 export default class NewMusiker {
-  constructor(name, birthYear) {
+  constructor(name, birthDate) {
     this.name = name;
-    this.birthYear = birthYear;
+    this.birthDate = birthDate;
   };
 
   dataInfo() {
     return {
       memberID: 'id' + new Date().getTime(),
       name: this.name,
-      birthYear: this.birthYear,
+      birthDate: this.birthDate,
       currentBand: [],
       previusBand: [],
       instrument: []
