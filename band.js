@@ -19,6 +19,7 @@ export default class Band {
 
   createBand(bandName, yearCreated, id, artistNamn, instrument) {
     const band = new NewBand(bandName, yearCreated, id, artistNamn, instrument);
+
     this.bandList.push(band.dataInfo());
     return band.dataInfo().bandID;
   }
@@ -30,6 +31,7 @@ export default class Band {
   currentToPreviu(bandIndex, musicanID, date) {
     let member = this.bandList[bandIndex].currentBandMember.find(x => x.memberID === musicanID);
     member["dateItLeft"] = date;
+
     this.bandList[bandIndex].previusBandMember.push(member)
     this.bandList[bandIndex].currentBandMember.splice(this.bandList[bandIndex].currentBandMember.findIndex(x => x.memberID === musicanID), 1);
     if (this.bandList[bandIndex].currentBandMember.length === 0) {
@@ -39,6 +41,7 @@ export default class Band {
 
   ongoingBand() {
     const temp = [];
+
     for (let i = 0; i < this.getLenght(); i++) {
       if (this.bandList[i].dissolved === null) {
         temp.push({ bandID: this.bandList[i].bandID, name: this.bandList[i].name, index: i });
@@ -54,15 +57,14 @@ export default class Band {
 
   displayAllband() {
     console.log("-------------------------------------------------------------------------------");
-    for (let i = 0; i < this.getLenght(); i++) {
-      console.log(`${i + 1}. ${this.bandList[i].name}`);
-    }
+    for (let i = 0; i < this.getLenght(); i++) { console.log(`${i + 1}. ${this.bandList[i].name}`); }
     console.log("-------------------------------------------------------------------------------");
   }
 
   displayOngoingBand() {
     let tempIndex = 1;
     const temp = this.ongoingBand()
+
     if (temp.length != 0) {
       console.log("-------------------------------------------------------------------------------");
       for (let i = 0; i < temp.length; i++) {
@@ -76,43 +78,47 @@ export default class Band {
 
   displayAvaliableBand(musicianID) {
     let tempIndex = 1
-    const temp = this.ongoingBand();
-    const temp2 = [];
-    if (temp.length != 0) {
+    const ongoing = this.ongoingBand();
+    const avaliable = [];
 
-      for (let i = 0; i < temp.length; i++) {
-        if (!this.bandList[temp[i].index].currentBandMember.some(x => x.memberID === musicianID))
-          temp2.push(temp[i])
+    if (ongoing.length != 0) {
+      for (let i = 0; i < ongoing.length; i++) {
+        if (!this.bandList[ongoing[i].index].currentBandMember.some(x => x.memberID === musicianID))
+          avaliable.push(ongoing[i])
       }
-      if (temp2.length != 0) {
+      if (avaliable.length != 0) {
         console.log("-------------------------------------------------------------------------------");
-        for (let i = 0; i < temp2.length; i++) {
-          console.log(`${tempIndex}. ${temp2[i].name}`)
+        for (let i = 0; i < avaliable.length; i++) {
+          console.log(`${tempIndex}. ${avaliable[i].name}`)
           tempIndex++;
         }
         console.log("-------------------------------------------------------------------------------");
       }
     }
-    return temp2;
+    return avaliable;
   }
 
   displayCurrentMember(index) {
-    const temp = [];
+    const currentMember = [];
+    let band = this.bandList[index].currentBandMember;
+
     console.log("-------------------------------------------------------------------------------");
-    for (let i = 0; i < this.bandList[index].currentBandMember.length; i++) {
-      console.log(`${i + 1}. ${this.bandList[index].currentBandMember[i].name} ${this.bandList[index].currentBandMember[i].instrument}`);
-      temp.push(this.bandList[index].currentBandMember[i].memberID);
+    for (let i = 0; i < band.length; i++) {
+      console.log(`${i + 1}. ${band[i].name} ${band[i].instrument}`);
+      currentMember.push(band[i].memberID);
     }
     console.log("-------------------------------------------------------------------------------");
-    return temp;
+    return currentMember;
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //remove
   removeCurrentMember(bandIndex, musicianID) {
-    this.bandList[bandIndex].currentBandMember.splice(this.bandList[bandIndex].currentBandMember.findIndex(x => x.memberID === musicianID), 1);
-    if (this.bandList[bandIndex].currentBandMember.length === 0) {
-      this.bandList[bandIndex].dissolved = new Date().toLocaleString();
+    const band = this.bandList[bandIndex];
+
+    band.currentBandMember.splice(band.currentBandMember.findIndex(x => x.memberID === musicianID), 1);
+    if (band.currentBandMember.length === 0) {
+      band.dissolved = new Date().toLocaleString();
     }
   }
 
@@ -120,8 +126,8 @@ export default class Band {
     this.bandList[BandIndex].previusBandMember.splice(this.bandList[BandIndex].previusBandMember.findIndex(x => x.memberID === musicianID), 1);
   }
 
-  removeBand(val) {
-    this.bandList.splice((val - 1), 1);
+  removeBand(bandIndex) {
+    this.bandList.splice(bandIndex, 1);
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

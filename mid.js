@@ -7,21 +7,27 @@ export default class Mid {
     this.band = new Band();
   }
 
-  createBand(musicIndex, instrument, bandName, yearCreated) {
-    let tempId = this.band.createBand(bandName, yearCreated, this.music.musicList[musicIndex].memberID, this.music.musicList[musicIndex].name, instrument);
-    this.music.addToABand(musicIndex, instrument, tempId, bandName, yearCreated);
-    this.writeToJson();
+  createBand(musicianIndex, instrument, bandName, yearCreated) {
+    const musician = this.music.musicList[musicianIndex]
+
+    const tempId = this.band.createBand(bandName, yearCreated, musician.memberID, musician.name, instrument);
+    this.music.addToABand(musicianIndex, instrument, tempId, bandName, yearCreated);
+    this.writeToJson()
   }
 
   addArtistToBand(musicianIndex, instrument, bandId, bandIndex) {
-    let date = new Date().getFullYear();
-    this.music.addToABand((musicianIndex), instrument, bandId, this.band.bandList[bandIndex].name, date);
-    this.band.addToABand(bandIndex, this.music.musicList[musicianIndex].memberID, this.music.musicList[musicianIndex].name, instrument, date);
+    const date = new Date().getFullYear();
+    const musician = this.music.musicList[musicianIndex]
+    const band = this.band.bandList[bandIndex]
+
+    this.music.addToABand(musicianIndex, instrument, bandId, band.name, date);
+    this.band.addToABand(bandIndex, musician.memberID, musician.name, instrument, date);
     this.writeToJson();
   }
 
   moveArtist(bandId, bandIndex, musicianId) {
-    let date = new Date().toLocaleString();
+    const date = new Date().toLocaleString();
+
     this.band.currentToPreviu(bandIndex, musicianId, date);
     this.music.currentToPreviu((this.music.musicList.findIndex(x => x.memberID === musicianId)), bandId, date);
     this.writeToJson();
@@ -29,26 +35,30 @@ export default class Mid {
 
   //remove
   removeArtist(musicianIndex) {
-    for (let i = 0; i < this.music.musicList[musicianIndex].currentBand.length; i++) {
-      const tempBandIndex = this.band.bandList.findIndex(x => x.bandID === this.music.musicList[musicianIndex].currentBand[i].bandID)
-      this.band.removeCurrentMember(tempBandIndex, this.music.musicList[musicianIndex].memberID);
+    const musician = this.music.musicList[musicianIndex]
+
+    for (let i = 0; i < musician.currentBand.length; i++) {
+      const bandIndex = this.band.bandList.findIndex(x => x.bandID === musician.currentBand[i].bandID)
+      this.band.removeCurrentMember(bandIndex, musician.memberID);
     }
-    for (let i = 0; i < this.music.musicList[musicianIndex].previusBand.length; i++) {
-      const tempBandIndex = this.band.bandList.findIndex(x => x.bandID === this.music.musicList[musicianIndex].previusBand[i].bandID)
-      this.band.removePreviusMember(tempBandIndex, this.music.musicList[musicianIndex].memberID);
+    for (let i = 0; i < musician.previusBand.length; i++) {
+      const bandIndex = this.band.bandList.findIndex(x => x.bandID === musician.previusBand[i].bandID)
+      this.band.removePreviusMember(bandIndex, musician.memberID);
     }
     this.music.removeArtist(musicianIndex);
     this.writeToJson();
   }
 
   removeBand(bandIndex) {
-    for (let i = 0; i < this.band.bandList[bandIndex].currentBandMember.length; i++) {
-      const tempArtistIndex = this.music.musicList.findIndex(x => x.memberID === this.band.bandList[bandIndex].currentBandMember[i].memberID)
-      this.music.removeCurrentBand(tempArtistIndex, this.band.bandList[bandIndex - 1].bandID);
+    const band = this.band.bandList[bandIndex]
+
+    for (let i = 0; i < band.currentBandMember.length; i++) {
+      const musicianIndex = this.music.musicList.findIndex(x => x.memberID === band.currentBandMember[i].memberID)
+      this.music.removeCurrentBand(musicianIndex, band.bandID);
     }
-    for (let i = 0; i < this.band.bandList[bandIndex].previusBandMember.length; i++) {
-      const tempArtistIndex = this.music.musicList.findIndex(x => x.memberID === this.band.bandList[bandIndex].previusBandMember[i].memberID)
-      this.music.removePreviusBand(tempArtistIndex, this.band.bandList[bandIndex - 1].bandID);
+    for (let i = 0; i < band.previusBandMember.length; i++) {
+      const musicianIndex = this.music.musicList.findIndex(x => x.memberID === band.previusBandMember[i].memberID)
+      this.music.removePreviusBand(musicianIndex, band.bandID);
     }
     this.band.removeBand(bandIndex);
     this.writeToJson()

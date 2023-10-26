@@ -8,9 +8,7 @@ const band = new Band();
 const mid = new Mid();
 
 function main() {
-  let run = true;
-  while (run) {
-    console.log(`
+  console.log(`
   1.skapa en musiker
   2.visa en spesifik musiker
   3.skapa band
@@ -21,38 +19,37 @@ function main() {
   8.ta bort allt info av ett band
   q.avsluta
   `);
-    let choice = prompt('meny val: ');
-    switch (choice) {
-      case '1':
-        createMusician();
-        break;
-      case '2':
-        showInfoOfOneMusician();
-        break;
-      case '3':
-        createBand();
-        break;;
-      case '4':
-        showInfoOfOneBand();
-        break;
-      case '5':
-        addMusicianToBand();
-        break;
-      case '6':
-        removeMusicanFromBand();
-        break;
-      case '7':
-        removeMusician();
-        break;
-      case '8':
-        removeBand();
-        break;
-      case 'q':
-        run = false;
-        break;
-      default:
-        console.log("valet finns inte!");
-    }
+  let choice = prompt('meny val: ');
+  switch (choice) {
+    case '1':
+      createMusician();
+      break;
+    case '2':
+      showInfoOfOneMusician();
+      break;
+    case '3':
+      createBand();
+      break;;
+    case '4':
+      showInfoOfOneBand();
+      break;
+    case '5':
+      addMusicianToBand();
+      break;
+    case '6':
+      removeMusicanFromBand();
+      break;
+    case '7':
+      removeMusician();
+      break;
+    case '8':
+      removeBand();
+      break;
+    case 'q':
+      run = false;
+      break;
+    default:
+      console.log("valet finns inte!");
   }
 }
 
@@ -227,7 +224,7 @@ function checkMusicianList() {
     console.log("finns inga musiker, behöver skapa musiker först!");
     return false;
   }
-  true;
+  return true;
 }
 
 function checkBandList() {
