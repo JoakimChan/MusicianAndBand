@@ -71,7 +71,6 @@ function createMusician() {
   }
   while (!musicianBirth) {
     birthdate = prompt("date of birth (YYYYMMDD): ");
-
     if (checkDate(birthdate)) {
       musicianBirth = true;
     }
@@ -164,10 +163,10 @@ function addMusicianToBand() {
         chooseBand = true
       } else {
         bandChoice = prompt("the number of the band you wanna add the musician to: ");
-        if (bandChoice > bandlist.length || bandChoice < 1 || isNaN(bandChoice)) {
+        if (bandChoice > bandList.length || bandChoice < 1 || isNaN(bandChoice)) {
           console.log("the choice is invalid")
         } else {
-          mid.addMusicanToBand((val1 - 1), instrument, templist[val2 - 1].bandID, templist[val2 - 1].index);
+          mid.addMusicanToBand((musicanChoice - 1), instrument, bandList[bandChoice - 1].bandID, bandList[bandChoice - 1].index);
           chooseBand = true
         }
       }
@@ -194,7 +193,7 @@ function removeMusicianFromBand() {
       }
     }
     while (!chooseMusican) {
-      musicanList = band.displayCurrentMember(bandList[val1 - 1].index);
+      musicanList = band.displayCurrentMember(bandList[bandChoice - 1].index);
       musicanChoice = prompt("the number of the musician you want to remove: ");
       if (musicanChoice > musicanList.length || musicanChoice < 1 || isNaN(musicanChoice)) {
         console.log("the choice is invalid")

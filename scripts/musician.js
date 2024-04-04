@@ -46,7 +46,7 @@ export default class Musician {
   displayAllMusician() {
     console.log("-------------------------------------------------------------------------------");
     for (let i = 0; i < this.getLenght(); i++) {
-      console.log(`${i + 1}. ${this.musicianList[i].name} - ${this.getAge(this.musicianList[i].birthDate)} year`);
+      console.log(`${i + 1}. ${this.musicianList[i].name} - born: ${this.musicianList[i].birthDate}`);
     }
     console.log("-------------------------------------------------------------------------------");
   }
@@ -65,7 +65,7 @@ export default class Musician {
     this.musicianList[musicianIndex].previusBand.splice(this.musicianList[musicianIndex].previusBand.findIndex(x => x.bandID === bandID), 1);
   }
 
-  removeArtist(musicianIndex) {
+  removeMusician(musicianIndex) {
     this.musicianList.splice((musicianIndex), 1);
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +75,7 @@ export default class Musician {
   }
 
   writeToJson() {
-    fs.writeFileSync('../musiker.json', JSON.stringify(this.musicianList, null, 2), (err) => {
+    fs.writeFileSync('../musician.json', JSON.stringify(this.musicianList, null, 2), (err) => {
       if (err) throw err;
       console.log('musician data writen to file')
     })
