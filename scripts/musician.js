@@ -1,31 +1,31 @@
 import fs from 'fs';
-import NewMusican from './newMusican.js';
+import NewMusician from './newMusician.js';
 
 export default class Musician {
-  musicanList = [];
+  musicianList = [];
 
   constructor() {
     this.fetchData();
   };
 
   fetchData() {
-    const jsonString = fs.readFileSync("musician.json");
+    const jsonString = fs.readFileSync("../musician.json");
     const data = JSON.parse(jsonString);
 
     for (let i = 0; i < data.length; i++) {
-      this.musicanList.push(data[i]);
+      this.musicianList.push(data[i]);
     }
   }
 
   createNewArtist(musicianName, birthDate) {
-    const music = new NewMusican(musicianName, birthDate);
+    const music = new NewMusician(musicianName, birthDate);
 
-    this.musicanList.push(music.dataInfo());
+    this.musicianList.push(music.dataInfo());
     this.writeToJson();
   };
 
   addToABand(musicianIndex, instrument, bandID, bandName, date) {
-    const musician = this.musicanList[musicianIndex];
+    const musician = this.musicianList[musicianIndex];
 
     if (!musician.instrument.includes(instrument)) {
       musician.instrument.push(instrument);
@@ -34,7 +34,7 @@ export default class Musician {
   }
 
   currentToPreviu(musicianIndex, bandID, date) {
-    const music = this.musicanList[musicianIndex];
+    const music = this.musicianList[musicianIndex];
     const band = music.currentBand.find(x => x.bandID === bandID);
     band["timeLeft"] = date;
 
@@ -43,41 +43,41 @@ export default class Musician {
   }
 
   //display
-  displayAllMusican() {
+  displayAllMusician() {
     console.log("-------------------------------------------------------------------------------");
     for (let i = 0; i < this.getLenght(); i++) {
-      console.log(`${i + 1}. ${this.musicanList[i].name} - ${this.getAge(this.musicanList[i].birthDate)} year`);
+      console.log(`${i + 1}. ${this.musicianList[i].name} - ${this.getAge(this.musicianList[i].birthDate)} year`);
     }
     console.log("-------------------------------------------------------------------------------");
   }
 
-  displayMusican(musicianIndex) {
-    console.log(this.musicanList[musicianIndex])
+  displayMusician(musicianIndex) {
+    console.log(this.musicianList[musicianIndex])
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //remove
   removeCurrentBand(musicianIndex, bandID) {
-    this.musicanList[musicianIndex].currentBand.splice(this.musicanList[musicianIndex].currentBand.findIndex(x => x.bandID === bandID), 1);
+    this.musicianList[musicianIndex].currentBand.splice(this.musicianList[musicianIndex].currentBand.findIndex(x => x.bandID === bandID), 1);
   }
 
   removePreviusBand(musicianIndex, bandID) {
-    this.musicanList[musicianIndex].previusBand.splice(this.musicanList[musicianIndex].previusBand.findIndex(x => x.bandID === bandID), 1);
+    this.musicianList[musicianIndex].previusBand.splice(this.musicianList[musicianIndex].previusBand.findIndex(x => x.bandID === bandID), 1);
   }
 
   removeArtist(musicianIndex) {
-    this.musicanList.splice((musicianIndex), 1);
+    this.musicianList.splice((musicianIndex), 1);
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   getLenght() {
-    return this.musicanList.length;
+    return this.musicianList.length;
   }
 
   writeToJson() {
-    fs.writeFileSync('./musiker.json', JSON.stringify(this.musicanList, null, 2), (err) => {
+    fs.writeFileSync('../musiker.json', JSON.stringify(this.musicianList, null, 2), (err) => {
       if (err) throw err;
-      console.log('artist data writen to file')
+      console.log('musician data writen to file')
     })
   }
 };

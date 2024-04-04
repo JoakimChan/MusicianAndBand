@@ -9,7 +9,7 @@ export default class Band {
   };
 
   fetchData() {
-    const jsonString = fs.readFileSync("band.json");
+    const jsonString = fs.readFileSync("../band.json");
     const data = JSON.parse(jsonString);
 
     for (let i = 0; i < data.length; i++) {
@@ -136,7 +136,7 @@ export default class Band {
   }
 
   writeToJson() {
-    fs.writeFileSync('./band.json', JSON.stringify(this.bandList, null, 2), (err) => {
+    fs.writeFileSync('../band.json', JSON.stringify(this.bandList, null, 2), (err) => {
       if (err) throw err;
       console.log('artist data writen to file')
     })

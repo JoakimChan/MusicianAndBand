@@ -41,13 +41,13 @@ function main() {
         addMusicianToBand();
         break;
       case '6':
-        removeMusicanFromBand();
+        removeMusicianFromBand();
         break;
       case '7':
-        removeMusician();
+        removeOneMusician();
         break;
       case '8':
-        removeBand();
+        removeOneBand();
         break;
       case 'q':
         running = false;
@@ -81,14 +81,14 @@ function createMusician() {
 
 function showInfoOfOneMusician() {
   if (checkList(music)) {
-    music.displayAllMusican();
+    music.displayAllMusician();
     let chooseMusican = true;
     while (chooseMusican) {
       let choice = prompt("the number of the musician you want to see more about: ");
       if (choice > music.getLenght() || choice < 1 || isNaN(choice)) {
         console.log('the choice is invalid');
       } else {
-        music.displayMusican(choice - 1);
+        music.displayMusician(choice - 1);
         chooseMusican = false;
       }
     }
@@ -108,7 +108,7 @@ function createBand() {
       }
     }
     while (!bandMember) {
-      music.displayAllMusican();
+      music.displayAllMusician();
       choice = prompt("the number of musician and add as the first member:")
       if (choice < 1 || choice > music.getLenght() || isNaN(choice)) {
         console.log("the choice does not exist!")
@@ -148,7 +148,7 @@ function addMusicianToBand() {
   let musicanChoice, instrument, bandChoice
   if (checkList(music) && checkList(band)) {
     while (!chooseMusican) {
-      music.displayAllMusican();
+      music.displayAllMusician();
       musicanChoice = prompt("the number of musician you want: ");
       if (musicanChoice > music.getLenght() || musicanChoice < 1 || isNaN(musicanChoice)) {
         console.log("the choice is invalid")
@@ -158,16 +158,16 @@ function addMusicianToBand() {
       }
     }
     while (!chooseBand) {
-      const bandList = band.displayAvaliableBand(music.musicanList[musicanChoice - 1].memberID);
+      const bandList = band.displayAvaliableBand(music.musicianList[musicanChoice - 1].memberID);
       if (bandList.length === 0) {
         console.log("there are no bands to add!")
         chooseBand = true
       } else {
-        bandChoice = prompt("the number of the band you wanna add the musican to: ");
+        bandChoice = prompt("the number of the band you wanna add the musician to: ");
         if (bandChoice > bandlist.length || bandChoice < 1 || isNaN(bandChoice)) {
           console.log("the choice is invalid")
         } else {
-          mid.addArtistToBand((val1 - 1), instrument, templist[val2 - 1].bandID, templist[val2 - 1].index);
+          mid.addMusicanToBand((val1 - 1), instrument, templist[val2 - 1].bandID, templist[val2 - 1].index);
           chooseBand = true
         }
       }
@@ -175,67 +175,68 @@ function addMusicianToBand() {
   }
 }
 
-function removeMusicanFromBand() {
-
-  if (checkMusicianList() && checkBandList()) {
-    const tempBandList = band.displayOngoingBand();
-    if (tempBandList.length === 0) {
-      console.log("det finns inga tillgängliga band!")
-    } else {
-      let val1 = prompt("band du vill ha: ");
-      if (val1 > tempBandList.length || val1 < 1 || isNaN(val1)) {
-        console.log("valet är ogiltig")
+function removeMusicianFromBand() {
+  let chooseBand, chooseMusican = false;
+  let bandChoice, bandList, musicanList, musicanChoice
+  if (checkList(music) && checkList(band)) {
+    while (!chooseBand) {
+      bandList = band.displayOngoingBand();
+      if (bandList.length === 0) {
+        console.log("there are no bands available!")
+        return
       } else {
-        const tempArtisList = band.displayCurrentMember(tempBandList[val1 - 1].index);
-        const val2 = prompt("musikern du till ta bort: ");
-        if (val2 > tempArtisList.length || val2 < 1 || isNaN(val2)) {
-          console.log("valet är ogiltig")
+        bandChoice = prompt("the number of bands you want:");
+        if (bandChoice > bandList.length || bandChoice < 1 || isNaN(bandChoice)) {
+          console.log("the choice is invalid")
         } else {
-          mid.moveArtist(tempBandList[val1 - 1].bandID, tempBandList[val1 - 1].index, tempArtisList[val2 - 1]);
+          chooseBand = true
         }
       }
     }
-  }
-}
-
-function removeMusician() {
-  console.log("7.ta bort allt info av en musiker")
-  if (checkMusicianList()) {
-    music.displayAllMusican();
-    let agien = true;
-    while (agien) {
-      let val = prompt('nummret på musiker du vill ta bort: ');
-      if (val > music.getLenght() || isNaN(val) || val <= 0) {
-        console.log('valet är ogtiltig');
+    while (!chooseMusican) {
+      musicanList = band.displayCurrentMember(bandList[val1 - 1].index);
+      musicanChoice = prompt("the number of the musician you want to remove: ");
+      if (musicanChoice > musicanList.length || musicanChoice < 1 || isNaN(musicanChoice)) {
+        console.log("the choice is invalid")
       } else {
-        mid.removeArtist(val - 1);
-        agien = false;
+        mid.moveMusican(bandList[bandChoice - 1].bandID, bandList[bandChoice - 1].index, musicanList[musicanChoice - 1]);
+        chooseMusican = true
       }
     }
   }
 }
 
-function removeBand() {
-  console.log("8.ta bort allt info av ett band")
-  if (checkBandList()) {
+function removeOneMusician() {
+  let chooseMusican = false;
+  if (checkList(music)) {
+    while (!chooseMusican) {
+      music.displayAllMusician();
+      let musicanChoice = prompt('the number of musician you want to remove: ');
+      if (musicanChoice > music.getLenght() || isNaN(musicanChoice) || musicanChoice <= 0) {
+        console.log('the choice is invalid');
+      } else {
+        mid.removeMusician(musicanChoice - 1);
+        chooseMusican = true
+      }
+    }
+  }
+}
+
+function removeOneBand() {
+  let chooseBand = false;
+  if (checkList(band)) {
     band.displayAllband()
-    let agien = true;
-    while (agien) {
-      let val = prompt('nummret på bandet du vill ta bort: ');
-      if (val > band.getLenght() || isNaN(val) || val <= 0) {
-        console.log('valet är ogtiltig');
+    while (!chooseBand) {
+      let bandChoice = prompt('the number of the band you want to delete: ');
+      if (bandChoice > band.getLenght() || isNaN(bandChoice) || bandChoice <= 0) {
+        console.log('the choice is invalid');
       } else {
-        mid.removeBand(val - 1);
-        agien = false;
+        mid.removeBand(bandChoice - 1);
+        chooseBand = true;
       }
     }
   }
 }
-
-
-
-
-
 
 function getAge(dateString) {
   let year = Number(dateString.substr(0, 4));
