@@ -1,31 +1,31 @@
 import fs from 'fs';
-import NewMusiker from './newMusiker.js';
+import NewMusican from './newMusican.js';
 
 export default class Musician {
-  musicList = [];
+  musicanList = [];
 
   constructor() {
     this.fetchData();
   };
 
   fetchData() {
-    const jsonString = fs.readFileSync("musiker.json");
+    const jsonString = fs.readFileSync("musician.json");
     const data = JSON.parse(jsonString);
 
     for (let i = 0; i < data.length; i++) {
-      this.musicList.push(data[i]);
+      this.musicanList.push(data[i]);
     }
   }
 
   createNewArtist(musicianName, birthDate) {
-    const music = new NewMusiker(musicianName, birthDate);
+    const music = new NewMusican(musicianName, birthDate);
 
-    this.musicList.push(music.dataInfo());
+    this.musicanList.push(music.dataInfo());
     this.writeToJson();
   };
 
   addToABand(musicianIndex, instrument, bandID, bandName, date) {
-    const musician = this.musicList[musicianIndex];
+    const musician = this.musicanList[musicianIndex];
 
     if (!musician.instrument.includes(instrument)) {
       musician.instrument.push(instrument);
@@ -34,7 +34,7 @@ export default class Musician {
   }
 
   currentToPreviu(musicianIndex, bandID, date) {
-    const music = this.musicList[musicianIndex];
+    const music = this.musicanList[musicianIndex];
     const band = music.currentBand.find(x => x.bandID === bandID);
     band["timeLeft"] = date;
 
@@ -43,55 +43,39 @@ export default class Musician {
   }
 
   //display
-  displayAllArtist() {
+  displayAllMusican() {
     console.log("-------------------------------------------------------------------------------");
     for (let i = 0; i < this.getLenght(); i++) {
-      console.log(`${i + 1}. ${this.musicList[i].name} - ${this.getAge(this.musicList[i].birthDate)} år`);
+      console.log(`${i + 1}. ${this.musicanList[i].name} - ${this.getAge(this.musicanList[i].birthDate)} year`);
     }
     console.log("-------------------------------------------------------------------------------");
   }
 
-  displayArtist(musicianIndex) {
-    console.log(this.musicList[musicianIndex])
+  displayMusican(musicianIndex) {
+    console.log(this.musicanList[musicianIndex])
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //remove
   removeCurrentBand(musicianIndex, bandID) {
-    this.musicList[musicianIndex].currentBand.splice(this.musicList[musicianIndex].currentBand.findIndex(x => x.bandID === bandID), 1);
+    this.musicanList[musicianIndex].currentBand.splice(this.musicanList[musicianIndex].currentBand.findIndex(x => x.bandID === bandID), 1);
   }
 
   removePreviusBand(musicianIndex, bandID) {
-    this.musicList[musicianIndex].previusBand.splice(this.musicList[musicianIndex].previusBand.findIndex(x => x.bandID === bandID), 1);
+    this.musicanList[musicianIndex].previusBand.splice(this.musicanList[musicianIndex].previusBand.findIndex(x => x.bandID === bandID), 1);
   }
 
   removeArtist(musicianIndex) {
-    this.musicList.splice((musicianIndex), 1);
+    this.musicanList.splice((musicianIndex), 1);
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  getAge(dateString) {
-    let year = Number(dateString.substr(0, 4));
-    let month = Number(dateString.substr(4, 2)) - 1;
-    let day = Number(dateString.substr(6, 2));
-    if (month > 11 || month < 0 || day > 31 || day < 1) {
-      return false;
-    } else {
-      const today = new Date();
-      const age = today.getFullYear() - year;
-      if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
-        age--;
-      }
-      return age;
-    }
-  }
-
   getLenght() {
-    return this.musicList.length;
+    return this.musicanList.length;
   }
 
   writeToJson() {
-    fs.writeFileSync('./musiker.json', JSON.stringify(this.musicList, null, 2), (err) => {
+    fs.writeFileSync('./musiker.json', JSON.stringify(this.musicanList, null, 2), (err) => {
       if (err) throw err;
       console.log('artist data writen to file')
     })

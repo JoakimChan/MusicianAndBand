@@ -1,4 +1,4 @@
-export default class NewMusiker {
+export default class NewMusican {
   constructor(name, birthDate) {
     this.name = name;
     this.birthDate = birthDate;
