@@ -9,6 +9,7 @@ export default class Band {
   };
 
   fetchData() {
+    this.bandList = []
     const jsonString = fs.readFileSync("../band.json");
     const data = JSON.parse(jsonString);
 

@@ -9,6 +9,7 @@ export default class Musician {
   };
 
   fetchData() {
+    this.musicianList = []
     const jsonString = fs.readFileSync("../musician.json");
     const data = JSON.parse(jsonString);
 

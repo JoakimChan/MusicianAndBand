@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "memberID": "id1712304768733",
+    "name": "bob",
+    "birthDate": "18800101",
+    "currentBand": [],
+    "previusBand": [],
+    "instrument": []
+  },
+  {
+    "memberID": "id1712304964720",
+    "name": "too",
+    "birthDate": "19001010",
+    "currentBand": [],
+    "previusBand": [],
+    "instrument": []
+  }
+]

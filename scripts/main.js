@@ -12,6 +12,8 @@ main();
 function main() {
   let running = true;
   while (running) {
+    music.fetchData()
+    band.fetchData()
     console.log(`
   1.create a musician
   2.show a specific musician
