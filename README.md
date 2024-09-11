@@ -2,8 +2,7 @@
 
 ## Introduction
 
-**Musician and Band Management System** 
-This project is a simple Node.js application designed to manage musicians and bands. The system utilizes JavaScript classes to model musicians and bands and stores their data in JSON files. This project provides an easy-to-use platform to handle essential musician and band data management tasks.
+**Musician and Band Management System** is a simple Node.js application designed to manage musicians and bands. The system utilizes JavaScript classes to model musicians and bands and stores their data in JSON files. This project provides an easy-to-use platform to handle essential musician and band data management tasks.
 
 ## Features
 
@@ -26,7 +25,7 @@ Before getting started, ensure you have Node.js installed on your system.
 
 The project is structured as follows:
 
-```plaintext
+```
 MusicianAndBand/
 │
 ├── classes/            # Contains JavaScript classes for Musicians and Bands
